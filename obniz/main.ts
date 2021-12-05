@@ -5,6 +5,9 @@ env.config();
 
 const obniz = new Obniz(process.env["OBNIZ_ID"] || "");
 
+const threshold = 2.0
+let isPressure = false;
+
 obniz.onconnect = async () => {
   obniz.display?.print("watching iot stone");
 
@@ -13,7 +16,7 @@ obniz.onconnect = async () => {
 
   // Analog Input
   obniz.ad1?.start((voltage) => {
-    console.log(voltage);
+    isPressure = voltage < threshold;
   });
 
   // GND
