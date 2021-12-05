@@ -1,19 +1,36 @@
 {
+  "name": "svelte-app",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxi dev",
-    "build": "nuxi build",
-    "start": "node .output/server/index.mjs"
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start": "sirv public --no-clear",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "format": "prettier --write ."
   },
   "devDependencies": {
-    "@vue/eslint-config-prettier": "^6.0.0",
-    "nuxt-windicss": "^2.0.12",
-    "nuxt3": "latest",
-    "prettier": "^2.5.0"
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
+    "@rollup/plugin-typescript": "^8.0.0",
+    "@tsconfig/svelte": "^2.0.0",
+    "prettier": "^2.5.1",
+    "prettier-plugin-svelte": "^2.5.0",
+    "rollup": "^2.3.4",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-svelte": "^7.0.0",
+    "rollup-plugin-terser": "^7.0.0",
+    "svelte": "^3.0.0",
+    "svelte-check": "^2.0.0",
+    "svelte-preprocess": "^4.0.0",
+    "svelte-windicss-preprocess": "^4.1.7",
+    "tslib": "^2.0.0",
+    "typescript": "^4.0.0"
   },
   "dependencies": {
-    "@vueuse/core": "^7.1.2",
     "dayjs": "^1.10.7",
-    "firebase": "^9.6.0"
+    "firebase": "^9.6.0",
+    "sirv-cli": "^1.0.0"
   }
 }
