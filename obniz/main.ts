@@ -1,6 +1,9 @@
 import Obniz from "obniz";
+import env from "dotenv";
 
-const obniz = new Obniz("number");
+env.config();
+
+const obniz = new Obniz(process.env["OBNIZ_ID"] || "");
 
 obniz.onconnect = async () => {
   obniz.display?.print("hello!");
