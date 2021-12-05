@@ -6,10 +6,16 @@ env.config();
 const obniz = new Obniz(process.env["OBNIZ_ID"] || "");
 
 obniz.onconnect = async () => {
-  obniz.display?.print("hello!");
-  if (obniz.switch) {
-    obniz.switch.onchange = (state: string) => {
-      console.log(state);
-    };
-  }
+  obniz.display?.print("watching iot stone");
+
+  // 5V
+  obniz.io0?.output(true);
+
+  // Analog Input
+  obniz.ad1?.start((voltage) => {
+    console.log(voltage);
+  });
+
+  // GND
+  obniz.io2?.output(false);
 };
