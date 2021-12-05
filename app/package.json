@@ -6,6 +6,14 @@
     "start": "node .output/server/index.mjs"
   },
   "devDependencies": {
-    "nuxt3": "latest"
+    "@vue/eslint-config-prettier": "^6.0.0",
+    "nuxt-windicss": "^2.0.12",
+    "nuxt3": "latest",
+    "prettier": "^2.5.0"
+  },
+  "dependencies": {
+    "@vueuse/core": "^7.1.2",
+    "dayjs": "^1.10.7",
+    "firebase": "^9.6.0"
   }
 }
