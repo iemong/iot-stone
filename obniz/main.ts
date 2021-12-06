@@ -5,7 +5,7 @@ import { Timer } from "./libs/Timer";
 
 env.config();
 
-const threshold = 1.0;
+const threshold = 0.5;
 let isPressure = false;
 let prevIsPressure = false;
 const ref = db.ref("state");
