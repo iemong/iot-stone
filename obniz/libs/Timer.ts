@@ -1,6 +1,8 @@
 import StrictEventEmitter from "strict-event-emitter-types";
 import { EventEmitter } from "events";
 import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+dayjs.extend(duration);
 
 type Events = {
   updateTime: (time: number) => void;
@@ -48,5 +50,11 @@ export class Timer extends (EventEmitter as { new (): MyEmitter }) {
     if (!this._timerId) return;
     clearInterval(this._timerId);
     this._timerId = null;
+  }
+
+  get formatElapsedTime() {
+    return dayjs
+      .duration(Math.floor(this._elapsedTime) / 1000, "s")
+      .format("Y年Mヶ月D日 HH:mm:ss");
   }
 }

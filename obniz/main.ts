@@ -2,6 +2,7 @@ import Obniz from "obniz";
 import env from "dotenv";
 import { db } from "./libs/firebase";
 import { Timer } from "./libs/Timer";
+import fetch, { Headers } from "node-fetch";
 
 env.config();
 
@@ -28,6 +29,20 @@ const fetchCurrentTime = () => {
   });
 };
 
+const postCfKV = (remainingTime: string) => {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `Bearer ${process.env["CF_TOKEN"]}`);
+  return fetch(
+    "https://api.cloudflare.com/client/v4/accounts/c5a179641abc4ab119707b1eb8586c02/storage/kv/namespaces/d6552d9447e84dbabdffed6b00d571b0/values/remaining",
+    {
+      method: "PUT",
+      headers: myHeaders,
+      body: JSON.stringify(remainingTime),
+    }
+  );
+};
+
 const main = async () => {
   const elapsedTime = await fetchCurrentTime();
 
@@ -47,7 +62,7 @@ const main = async () => {
     // Analog Input
     obniz.ad1?.start((voltage) => {
       isPressure = voltage < threshold;
-      console.log(voltage)
+      console.log(voltage);
 
       if (isPressure !== prevIsPressure) {
         flagRef.set(isPressure);
@@ -56,6 +71,7 @@ const main = async () => {
           timer.start();
         } else {
           timer.stop();
+          postCfKV(timer.formatElapsedTime);
         }
       }
       prevIsPressure = isPressure;
