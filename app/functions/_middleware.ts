@@ -4,7 +4,7 @@ export const onRequest: PagesFunction = async ({ next }) => {
   const response = await next()
   let html = await response.text()
 
-  html = html.replace('content="REPLACE_DESCRIPTION"', `content="${remaining}"`)
+  html = html.replace('content="REPLACE_DESCRIPTION"', `content="hogehoge"`)
 
   return new Response(html, {
     headers: { 'Content-Type': 'text/html' },
