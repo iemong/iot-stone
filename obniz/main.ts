@@ -5,7 +5,7 @@ import { Timer } from "./libs/Timer";
 
 env.config();
 
-const threshold = 2.0;
+const threshold = 1.0;
 let isPressure = false;
 let prevIsPressure = false;
 const ref = db.ref("state");
@@ -47,6 +47,7 @@ const main = async () => {
     // Analog Input
     obniz.ad1?.start((voltage) => {
       isPressure = voltage < threshold;
+      console.log(voltage)
 
       if (isPressure !== prevIsPressure) {
         flagRef.set(isPressure);
