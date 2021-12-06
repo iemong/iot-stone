@@ -1,5 +1,5 @@
 export {};
 
 declare global {
-    const iot_stone: KVNamespace;
+    const IOT_STONE: KVNamespace;
 }

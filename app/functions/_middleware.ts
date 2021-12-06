@@ -6,8 +6,11 @@ const errorHandler: PagesFunction = async ({ next }) => {
   }
 }
 
-export const replace: PagesFunction = async ({ next }) => {
-  const remaining = await iot_stone.get('remaining')
+export const replace: PagesFunction<{ IOT_STONE: KVNamespace }> = async ({
+  next,
+  env,
+}) => {
+  const remaining = await env.IOT_STONE.get('remaining')
   const response = await next()
   let html = await response.text()
 
