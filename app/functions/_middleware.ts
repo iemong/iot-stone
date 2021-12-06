@@ -7,11 +7,11 @@ const errorHandler: PagesFunction = async ({ next }) => {
 }
 
 export const replace: PagesFunction = async ({ next }) => {
-  // const remaining = await IOT_STONE.get('remaining')
+  const remaining = await iot_stone.get('remaining')
   const response = await next()
   let html = await response.text()
 
-  html = html.replace('content="REPLACE_DESCRIPTION"', `content="hogehoge"`)
+  html = html.replace('content="REPLACE_DESCRIPTION"', `content="${remaining}"`)
 
   return new Response(html, {
     headers: { 'Content-Type': 'text/html' },
