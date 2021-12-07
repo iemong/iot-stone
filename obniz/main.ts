@@ -34,11 +34,11 @@ const postCfKV = (remainingTime: string) => {
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", `Bearer ${process.env["CF_TOKEN"]}`);
   return fetch(
-    "https://api.cloudflare.com/client/v4/accounts/c5a179641abc4ab119707b1eb8586c02/storage/kv/namespaces/d6552d9447e84dbabdffed6b00d571b0/values/remaining",
+    "https://api.cloudflare.com/client/v4/accounts/c5a179641abc4ab119707b1eb8586c02/storage/kv/namespaces/d6552d9447e84dbabdffed6b00d571b0/values/meta",
     {
       method: "PUT",
       headers: myHeaders,
-      body: JSON.stringify(remainingTime),
+      body: JSON.stringify({ description: remainingTime}),
     }
   );
 };

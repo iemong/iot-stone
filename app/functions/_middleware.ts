@@ -26,7 +26,9 @@ export const replace: PagesFunction<{ IOT_STONE: KVNamespace }> = async ({
   next,
   env,
 }) => {
-  const remaining = await env.IOT_STONE.get('remaining')
+  const meta = await env.IOT_STONE.get<{
+    description: string
+  }>('meta', { type: 'json' })
   const response = await next()
 
   const contentType = response.headers.get('Content-Type')
@@ -35,7 +37,7 @@ export const replace: PagesFunction<{ IOT_STONE: KVNamespace }> = async ({
 
   const rewriter = new HTMLRewriter().on(
     'meta[name="description"]',
-    new AttributeRewriter('content', remaining || '')
+    new AttributeRewriter('content', meta?.description || '')
   )
 
   return rewriter.transform(response)
