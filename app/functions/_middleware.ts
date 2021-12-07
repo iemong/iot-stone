@@ -14,7 +14,8 @@ export const replace: PagesFunction<{ IOT_STONE: KVNamespace }> = async ({
   const response = await next()
   let html = await response.text()
 
-  html = html.replace('content="REPLACE_DESCRIPTION"', `content="${remaining}"`)
+  const replaceText = `content="${remaining}"`
+  html = html.replace('content="REPLACE_DESCRIPTION"', replaceText)
 
   return new Response(html, {
     headers: { 'Content-Type': 'text/html' },
