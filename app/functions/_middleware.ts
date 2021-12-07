@@ -6,21 +6,39 @@ const errorHandler: PagesFunction = async ({ next }) => {
   }
 }
 
+class AttributeRewriter {
+  private readonly attributeName: string
+  private readonly replaceText: string
+  constructor(attributeName: string, replaceText: string) {
+    this.attributeName = attributeName
+    this.replaceText = replaceText
+  }
+
+  element(element: Element) {
+    const attribute = element.getAttribute(this.attributeName)
+    if (attribute) {
+      element.setAttribute(this.attributeName, this.replaceText)
+    }
+  }
+}
+
 export const replace: PagesFunction<{ IOT_STONE: KVNamespace }> = async ({
   next,
   env,
 }) => {
   const remaining = await env.IOT_STONE.get('remaining')
   const response = await next()
-  let html = await response.text()
 
-  const replaceText = `content="${remaining}"`
-  html = html.replace('content="REPLACE_DESCRIPTION"', replaceText)
+  const contentType = response.headers.get('Content-Type')
 
-  return new Response(html, {
-    headers: { 'Content-Type': 'text/html' },
-    status: 200,
-  })
+  if (!contentType?.startsWith('text/html')) return response
+
+  const rewriter = new HTMLRewriter().on(
+    'meta[name="description"]',
+    new AttributeRewriter('content', remaining || '')
+  )
+
+  return rewriter.transform(response)
 }
 
 export const onRequest = [errorHandler, replace]
