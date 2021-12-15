@@ -62,7 +62,6 @@ const main = async () => {
     // Analog Input
     obniz.ad1?.start((voltage) => {
       isPressure = voltage < threshold;
-      console.log(voltage);
 
       if (isPressure !== prevIsPressure) {
         flagRef.set(isPressure);
